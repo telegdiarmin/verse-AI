@@ -1,8 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { provideRouter, RouterOutlet } from '@angular/router';
+import { routes } from './app.routes';
 
 @Component({
-  selector: 'app-root',
+  selector: 'vai-root',
   imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'

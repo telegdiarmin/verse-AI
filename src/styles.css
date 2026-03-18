@@ -1,1 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --color-background: #222;
+  --color-text: #F8F8F8;
+  --banner-background: #E8F8D9;
+  --banner-background-dark: #41552f;
+}
+
+body {
+  background: linear-gradient(90deg, #569d69 0%, #132313 100%)
+}

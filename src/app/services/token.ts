@@ -1,0 +1,25 @@
+import { Injectable, inject, signal } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+
+const TOKEN_KEY = 'vai-user-token'; 
+
+@Injectable({
+  providedIn: 'root'
+})
+export class TokenService {
+  readonly #localStorage = inject(DOCUMENT)?.defaultView?.localStorage;
+
+  #userToken = signal<string>('');
+
+  public userToken = this.#userToken.asReadonly();
+
+  constructor() {
+    const token = this.#localStorage?.getItem(TOKEN_KEY) || '';
+
+    this.#userToken.set(token);
+  }
+
+  setUserToken(token: string): void {
+    this.#localStorage?.setItem(TOKEN_KEY, token);
+  }
+}
