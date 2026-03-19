@@ -12,7 +12,7 @@ export class RegistrationGuard implements CanActivate {
   ) {}
 
   canActivate(): boolean {
-    if (!!this.tokenService.userToken) {
+    if (!this.tokenService.userToken()) {
       this.router.navigate([`/${routeRegistration}`]);
 
       return false;

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { Router } from '@angular/router';
 import { TokenService } from '../../services/token';
 import { routeVerse } from '../../app.routes';
@@ -12,19 +12,19 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
   templateUrl: './registration.html',
   styleUrl: './registration.css',
 })
-export class Registration implements OnInit {
+export class Registration {
   protected userNameFormControl = new FormControl('', { validators: [Validators.required] });
 
   protected sub = this.userNameFormControl.statusChanges.subscribe((asd) =>{
       console.log(this.userNameFormControl.valid);
   });
 
-  constructor(private readonly router: Router, private readonly tokenService: TokenService) {}
-
-  public ngOnInit(): void {
-    if (!!this.tokenService.userToken) {
-      this.router.navigate([`/${routeVerse}`]);
-    }
+  constructor(private readonly router: Router, private readonly tokenService: TokenService) {
+    effect(() => {
+      if (!!this.tokenService.userToken()) {
+        this.router.navigate([`/${routeVerse}`]);
+      }
+    });
   }
 
   protected onRegister(): void {

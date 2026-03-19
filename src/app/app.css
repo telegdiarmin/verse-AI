@@ -6,7 +6,7 @@
     color: var(--color-text);
     position: absolute;
     top: 3%;
-    right: 15%;
+    right: calc((100% - var(--content-width)) / 2);
     font-size: 1.5rem;
     font-weight: 600;
     border: 2px dotted var(--color-text-transparent);
@@ -17,14 +17,42 @@
   img {
     padding-top: 50px;
     display: block;
-    width: 40dvh;
+    max-width: var(--content-width);
+    max-height: 35dvh;
   
     filter: drop-shadow(5px 5px 10px #222);
   }
 }
 
+.chip-list-container {
+  display: flex;
+  justify-content: center;
+
+  .chip-list {
+    width: var(--content-width);
+  }
+}
+
 .content {
+  display: flex;
+  justify-content: center;
   position: absolute;
   width: 100%;
   bottom: 20%;
+
+  .content-inside {
+    width: var(--content-width);
+  }
+}
+
+@media (max-height: 860px) {
+  .content {
+    bottom: 10%;
+  }
+}
+
+@media (max-height: 800px) {
+  .content {
+    bottom: 5%;
+  }
 }

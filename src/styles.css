@@ -7,10 +7,13 @@
 
 :root {
   --color-background: #222;
+  --color-background-destructive: #3d2121;
   --color-text: #F8F8F8;
   --color-text-transparent: #F8F8F880;
   --banner-background: #E8F8D9;
   --banner-background-dark: #41552f;
+  --content-width: 90%;
+  --content-gap: 24px;
 }
 
 body {

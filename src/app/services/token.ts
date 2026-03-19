@@ -21,5 +21,7 @@ export class TokenService {
 
   setUserToken(token: string): void {
     this.#localStorage?.setItem(TOKEN_KEY, token);
+
+    this.#userToken.set(token);
   }
 }

@@ -1,5 +1,5 @@
 :host {
-  width: 70%;
+  width: 100%;
 
   button {
     background-color: var(--color-text);
@@ -22,6 +22,11 @@
       opacity: .5;
       transform: none;
       filter: drop-shadow(5px 5px 10px #222);
+    }
+
+    &.destructive {
+      color: var(--color-text);
+      background-color: var(--color-background-destructive);
     }
   }
 }

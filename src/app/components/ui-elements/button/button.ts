@@ -6,11 +6,11 @@ import { Component, input, output, signal } from '@angular/core';
   styleUrl: './button.css',
 })
 export class Button {
+  public readonly destructive = input<boolean>(false);
+
   public readonly disabled = input<boolean>(false);
 
-  public readonly stroked = input<boolean>(false);
-
-  public readonly label = input<string>('');
+  public readonly label = input.required<string>();
 
   public readonly onClick = output<void>();
 }

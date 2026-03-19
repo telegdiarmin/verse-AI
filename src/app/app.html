@@ -1,10 +1,14 @@
 <div class="heading">
   <p class="username">{{ mockCurrentUser }}</p>
-  <img src="assets/heading.png">
+  <img src="assets/heading2.png">
 </div>
 
-<vai-chip-list [items]="mockItems"></vai-chip-list>
+<div class="chip-list-container">
+  <vai-chip-list class="chip-list" [items]="mockItems"></vai-chip-list>
+</div>
 
 <div class="content">
-  <router-outlet></router-outlet>
+  <div class="content-inside">
+    <router-outlet></router-outlet>
+  </div>
 </div>
