@@ -2,6 +2,18 @@
   display: flex;
   justify-content: center;
 
+  .username {
+    color: var(--color-text);
+    position: absolute;
+    top: 3%;
+    right: 15%;
+    font-size: 1.5rem;
+    font-weight: 600;
+    border: 2px dotted var(--color-text-transparent);
+    border-radius: 50px;
+    padding: 5px 20px;
+  }
+
   img {
     padding-top: 50px;
     display: block;

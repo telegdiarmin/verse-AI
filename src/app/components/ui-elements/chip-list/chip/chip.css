@@ -1,6 +1,6 @@
 .chip {
   color: var(--color-text);
-  border: 1px solid var(--color-text-tranparent);
+  border: 1px solid var(--color-text-transparent);
   outline: 1px solid var(--color-text);
   outline-offset: 2px;
   border-radius: 50px;

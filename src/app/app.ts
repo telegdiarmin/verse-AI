@@ -14,4 +14,5 @@ export class App {
 
   // TODO - remove this later
   protected readonly mockItems = ['Pigen', 'Barnabás', 'Fábi', 'Puli', 'René'];
+  protected readonly mockCurrentUser = 'Bande';
 }
