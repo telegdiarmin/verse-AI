@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, CanDeactivate, Router } from '@angular/router';
 import { TokenService } from './services/token';
-import { rootRegistration } from './app.routes';
+import { routeRegistration } from './app.routes';
 
 @Injectable({ providedIn: 'root' })
 export class RegistrationGuard implements CanActivate {
@@ -13,7 +13,7 @@ export class RegistrationGuard implements CanActivate {
 
   canActivate(): boolean {
     if (!!this.tokenService.userToken) {
-      this.router.navigate([`/${rootRegistration}`]);
+      this.router.navigate([`/${routeRegistration}`]);
 
       return false;
     }

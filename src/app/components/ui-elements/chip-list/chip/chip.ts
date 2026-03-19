@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'vai-chip',
@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './chip.css',
 })
 export class Chip {
-
+  public readonly item = input<string>();
 }

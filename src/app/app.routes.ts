@@ -4,29 +4,29 @@ import { Registration } from './components/registration/registration';
 import { Verse } from './components/verse/verse';
 import { RegistrationGuard } from './registration.guard';
 
-export const rootAdmin = 'admin';
-export const rootRegistration = 'resgistration';
-export const rootVerse = 'verse';
+export const routeAdmin = 'admin';
+export const routeRegistration = 'resgistration';
+export const routeVerse = 'verse';
 
 export const routes: Routes = [
   {
-    path: rootAdmin,
+    path: routeAdmin,
     component: Admin,
     pathMatch: 'full',
   },
   {
-    path: rootRegistration,
+    path: routeRegistration,
     component: Registration,
     pathMatch: 'full',
   },
   {
-    path: rootVerse,
+    path: routeVerse,
     component: Verse,
     pathMatch: 'full',
     canActivate: [RegistrationGuard]
   },
   {
     path: '**',
-    redirectTo: `/${rootRegistration}`
+    redirectTo: `/${routeRegistration}`
   }
 ];

@@ -2,11 +2,13 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 :root {
   --color-background: #222;
   --color-text: #F8F8F8;
+  --color-text-tranparent: #F8F8F880;
   --banner-background: #E8F8D9;
   --banner-background-dark: #41552f;
 }

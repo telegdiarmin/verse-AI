@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TokenService } from '../../services/token';
-import { rootVerse } from '../../app.routes';
+import { routeVerse } from '../../app.routes';
 import { Button } from '../ui-elements/button/button';
 import { TextField } from '../ui-elements/text-field/text-field';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -23,7 +23,7 @@ export class Registration implements OnInit {
 
   public ngOnInit(): void {
     if (!!this.tokenService.userToken) {
-      this.router.navigate([`/${rootVerse}`]);
+      this.router.navigate([`/${routeVerse}`]);
     }
   }
 

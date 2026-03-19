@@ -1,1 +1,5 @@
-<p>chip-list works!</p>
+<div class="chip-list">
+  @for (item of items(); track item) {
+    <vai-chip [item]="item"></vai-chip>
+  }
+</div>
