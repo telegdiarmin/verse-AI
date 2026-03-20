@@ -5,7 +5,7 @@ import { Verse } from './components/verse/verse';
 import { RegistrationGuard } from './registration.guard';
 
 export const routeAdmin = 'admin';
-export const routeRegistration = 'resgistration';
+export const routeRegistration = 'registration';
 export const routeVerse = 'verse';
 
 export const routes: Routes = [
