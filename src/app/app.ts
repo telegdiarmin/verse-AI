@@ -13,6 +13,6 @@ export class App {
   protected readonly title = signal('verse-AI');
 
   // TODO - remove this later
-  protected readonly mockItems = ['Pigen', 'Barnabás', 'Fábi', 'Puli', 'René'];
+  protected readonly mockItems = ['Pigen', 'Barnabás', 'Fábi', 'Puli', 'René', 'Misi', 'Peti', 'Jecó', 'Imi', 'Máté', 'Gazsi', 'Levi', 'Ármin', 'Fábi', 'Bande'];
   protected readonly mockCurrentUser = 'Bande';
 }

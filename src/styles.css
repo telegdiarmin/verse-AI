@@ -13,6 +13,7 @@
   --banner-background: #E8F8D9;
   --banner-background-dark: #41552f;
   --content-width: 90%;
+  --content-max-width: 800px;
   --content-gap: 24px;
 }
 

@@ -1,14 +1,14 @@
-<div class="heading">
-  <p class="username">{{ mockCurrentUser }}</p>
-  <img src="assets/heading2.png">
-</div>
-
-<div class="chip-list-container">
-  <vai-chip-list class="chip-list" [items]="mockItems"></vai-chip-list>
-</div>
-
 <div class="content">
-  <div class="content-inside">
+  <div class="heading">
+    <div class="statusbar">
+      <span class="username">{{ mockCurrentUser }}</span>
+    </div>
+    <img src="assets/heading2.png">
+
+    <vai-chip-list class="chip-list" [items]="mockItems"></vai-chip-list>
+  </div>
+
+  <div class="content-aligner">
     <router-outlet></router-outlet>
   </div>
 </div>
