@@ -1,8 +1,9 @@
-import { UUID } from './uuid.types';
+import { UserDataType } from './user-data.types';
 
 export type RegisterUserHandlerResponseType = {
-  name: string;
-  userId: UUID;
+  readonly userData: UserDataType;
 };
 
-export type RegisterUserHandlerType = (name: string) => Promise<RegisterUserHandlerResponseType>;
+export interface RegisterUserHandlerInterface {
+  (name: string): Promise<RegisterUserHandlerResponseType>;
+}

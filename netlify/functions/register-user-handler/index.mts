@@ -1,4 +1,4 @@
-import { RegisterUserHandlerType } from '../../../src/types/register-user-handler.types';
+import { RegisterUserHandlerInterface } from '../../../src/types/register-user-handler.types';
 
 /**
  * Handler for registering a new user to the pool. Returns a unique user ID and the name of the registered user.
@@ -6,7 +6,7 @@ import { RegisterUserHandlerType } from '../../../src/types/register-user-handle
  * @param name The name of the user to be registered
  */
 
-const handler: RegisterUserHandlerType = async (name) => {
+const handler: RegisterUserHandlerInterface = async (name) => {
   throw new Error('Not implemented');
 };
 

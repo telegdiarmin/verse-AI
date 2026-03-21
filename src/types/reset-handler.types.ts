@@ -1,3 +1,5 @@
 import { UUID } from './uuid.types';
 
-export type ResetHandlerType = (userId: UUID) => Promise<void>;
+export interface ResetHandlerInterface {
+  (userId: UUID): Promise<void>;
+}
