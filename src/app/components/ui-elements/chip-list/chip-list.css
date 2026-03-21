@@ -2,6 +2,7 @@
   display: block;
   display: flex;
   justify-content: center;
+  padding-bottom: 20px;
   
   .chip-list {
     display: flex;
