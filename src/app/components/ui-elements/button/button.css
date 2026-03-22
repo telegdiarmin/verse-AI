@@ -2,8 +2,8 @@
   width: 100%;
 
   button {
-    background-color: var(--color-text);
-    color: var( --banner-background-dark);
+    background-color: var(--color-background-light);
+    color: var(--color-text-on-light);
     border: none;
     border-radius: 50px;
     height: 50px;
