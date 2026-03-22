@@ -4,4 +4,5 @@
   justify-content: center;
   flex-direction: column;
   gap: var(--content-gap);
+  width: 100%;
 }
