@@ -13,6 +13,7 @@ export const routes: Routes = [
     path: routeAdmin,
     component: Admin,
     pathMatch: 'full',
+    canActivate: [RegistrationGuard],
   },
   {
     path: routeRegistration,
@@ -23,10 +24,10 @@ export const routes: Routes = [
     path: routeVerse,
     component: Verse,
     pathMatch: 'full',
-    canActivate: [RegistrationGuard]
+    canActivate: [RegistrationGuard],
   },
   {
     path: '**',
-    redirectTo: `/${routeRegistration}`
+    redirectTo: `/${routeRegistration}`,
   }
 ];
