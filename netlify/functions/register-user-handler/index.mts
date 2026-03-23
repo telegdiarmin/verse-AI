@@ -14,7 +14,16 @@ const registerUserHandler: RegisterUserHandlerInterface = async (request) => {
 
   try {
     const result = await client.query(
-      /* sql */ `INSERT INTO users (name) VALUES ($1) RETURNING name, id;`,
+      /* sql */
+      `
+        INSERT INTO
+          users (name)
+        VALUES
+          ($1)
+        RETURNING
+          name,
+          id;
+      `,
       [request.name],
     );
 

@@ -26,7 +26,7 @@
         border: 2px dotted var(--color-text-transparent);
         border-radius: 50px;
         padding: 5px 20px;
-      } 
+      }
     }
 
     img {
@@ -41,6 +41,6 @@
       display: flex;
       flex-grow: 1;
       width: 100%;
-    }        
+    }
   }
 }

@@ -15,11 +15,11 @@
 
     &:active {
       filter: none;
-      transform: scale(.98);
+      transform: scale(0.98);
     }
 
     &:disabled {
-      opacity: .5;
+      opacity: 0.5;
       transform: none;
       filter: drop-shadow(5px 5px 10px #222);
     }

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+
 import { Admin } from './components/admin/admin';
 import { Registration } from './components/registration/registration';
 import { Verse } from './components/verse/verse';
@@ -29,5 +30,5 @@ export const routes: Routes = [
   {
     path: '**',
     redirectTo: `/${routeRegistration}`,
-  }
+  },
 ];

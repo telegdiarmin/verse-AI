@@ -1,2 +1,6 @@
 <vai-text-field placeholder="Neved" [formControl]="userNameFormControl"></vai-text-field>
-<vai-button label="Regisztrálok" [disabled]="!userNameFormControl.valid" (click)="onRegister()"></vai-button>
+<vai-button
+  label="Regisztrálok"
+  [disabled]="!userNameFormControl.valid"
+  (click)="onRegister()"
+></vai-button>

@@ -2,7 +2,7 @@
 const prettierConfig = {
   printWidth: 100,
   singleQuote: true,
-  plugins: ['prettier-plugin-embed', '@ianvs/prettier-plugin-sort-imports'],
+  plugins: ['prettier-plugin-sql', '@ianvs/prettier-plugin-sort-imports', 'prettier-plugin-embed'],
   importOrder: ['<BUILTIN_MODULES>', '<THIRD_PARTY_MODULES>', '', '^[.]'],
   importOrderParserPlugins: ['typescript', 'explicitResourceManagement', 'decorators'],
   overrides: [
@@ -18,6 +18,8 @@ const prettierConfig = {
 /** @type {import('prettier-plugin-embed').PrettierPluginEmbedOptions} */
 const prettierPluginEmbedConfig = {
   embeddedSqlTags: ['sql.type', 'sql.unsafe', 'sql.fragment'],
+  embeddedSqlComments: ['sql'],
+  language: 'postgresql',
 };
 
 const config = {
