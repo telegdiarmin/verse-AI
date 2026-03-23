@@ -1,13 +1,77 @@
-import { RegisterUserHandlerInterface } from '../../../src/types/register-user-handler.types';
+import { ZodError } from 'zod';
 
-/**
- * Handler for registering a new user to the pool. Returns a unique user ID and the name of the registered user.
- *
- * @param name The name of the user to be registered
- */
+import {
+  RegisterUserHandlerRequestSchema,
+  type RegisterUserHandlerInterface,
+  type RegisterUserHandlerResponseType,
+} from '../../../src/types/register-user-handler.types';
+import { PostgresClient } from '../../lib/postgres/get-client';
 
-const handler: RegisterUserHandlerInterface = async (name) => {
-  throw new Error('Not implemented');
+import 'dotenv/config';
+
+const registerUserHandler: RegisterUserHandlerInterface = async (request) => {
+  const client = await PostgresClient.getClient();
+
+  try {
+    const result = await client.query(
+      /* sql */ `INSERT INTO users (name) VALUES ($1) RETURNING name, id;`,
+      [request.name],
+    );
+
+    const responseData: RegisterUserHandlerResponseType = {
+      userData: {
+        name: result.rows[0].name,
+        userId: result.rows[0].user_id,
+      },
+    };
+
+    return responseData;
+  } catch (error) {
+    throw error;
+  } finally {
+    await client.end();
+  }
 };
 
-export default handler;
+export default async (request: Request) => {
+  const parsedRequest = RegisterUserHandlerRequestSchema.parse(await request.json());
+
+  try {
+    const response = await registerUserHandler(parsedRequest);
+
+    return new Response(JSON.stringify(response), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  } catch (error) {
+    if (!(error instanceof Error)) {
+      return new Response(
+        JSON.stringify({
+          error: 'An unknown error occurred',
+        }),
+        {
+          status: 500,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+    }
+
+    if (error instanceof ZodError) {
+      return new Response(
+        JSON.stringify({
+          error: error.message,
+        }),
+        {
+          status: 400,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+    }
+  }
+};
