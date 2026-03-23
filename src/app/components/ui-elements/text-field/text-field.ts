@@ -7,19 +7,19 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   templateUrl: './text-field.html',
   styleUrl: './text-field.css',
   providers: [
-  {
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => TextField),
-    multi: true
-  }
-]
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => TextField),
+      multi: true,
+    },
+  ],
 })
 export class TextField implements ControlValueAccessor {
   protected onChange: (value: string) => void = () => {};
-  
+
   protected onTouched: () => void = () => {};
-  
-  protected value: string = "";
+
+  protected value: string = '';
 
   public readonly placeholder = input<string>('');
 
@@ -35,8 +35,7 @@ export class TextField implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  setDisabledState?(isDisabled: boolean): void {
-  }
+  setDisabledState?(isDisabled: boolean): void {}
 
   onInput(value: string) {
     this.value = value;

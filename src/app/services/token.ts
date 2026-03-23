@@ -1,10 +1,10 @@
-import { Injectable, inject, signal } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { inject, Injectable, signal } from '@angular/core';
 
-const TOKEN_KEY = 'vai-user-token'; 
+const TOKEN_KEY = 'vai-user-token';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TokenService {
   readonly #localStorage = inject(DOCUMENT)?.defaultView?.localStorage;

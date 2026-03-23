@@ -1,5 +1,6 @@
 import { Component, input } from '@angular/core';
-import { Chip } from "./chip/chip";
+
+import { Chip } from './chip/chip';
 
 @Component({
   selector: 'vai-chip-list',

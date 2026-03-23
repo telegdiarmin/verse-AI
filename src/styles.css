@@ -6,9 +6,9 @@
 }
 
 :root {
-  --color-text: #F8F8F8;
+  --color-text: #f8f8f8;
   --color-text-on-light: #41552f;
-  --color-text-transparent: #F8F8F880;
+  --color-text-transparent: #f8f8f880;
   --color-background: #222;
   --color-background-destructive: #3d2121;
   --color-background-light: var(--color-text);
@@ -18,7 +18,7 @@
 }
 
 body {
-  background: linear-gradient(90deg, #569d69 0%, #132313 100%)
+  background: linear-gradient(90deg, #569d69 0%, #132313 100%);
 }
 
 @media (max-height: 768px) {

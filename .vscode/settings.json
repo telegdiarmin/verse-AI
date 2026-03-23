@@ -1,0 +1,6 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.configPath": "prettier.config.mjs",
+  "prettier.documentSelectors": ["**/*.mts", "**/*.cts", "**/*.mjs", "**/*.cjs"]
+}

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, CanDeactivate, Router } from '@angular/router';
-import { TokenService } from './services/token';
+
 import { routeRegistration } from './app.routes';
+import { TokenService } from './services/token';
 
 @Injectable({ providedIn: 'root' })
 export class RegistrationGuard implements CanActivate {
-
   constructor(
     private tokenService: TokenService,
-    private router: Router
+    private router: Router,
   ) {}
 
   canActivate(): boolean {
