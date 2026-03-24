@@ -1,0 +1,13 @@
+[build]
+  command = "pnpm run build"
+  publish = "dist/verse-AI/browser"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# SPA fallback: serve index.html for all non-file routes so Angular's router
+# handles client-side navigation on direct access and page refresh.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
