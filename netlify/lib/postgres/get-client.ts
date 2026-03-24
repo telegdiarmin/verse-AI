@@ -8,10 +8,6 @@ export class PostgresClient {
 
   private constructor() {
     this.client = new Client({
-      host: process.env.PG_HOST ?? '',
-      port: Number(process.env.PG_PORT ?? ''),
-      database: process.env.PG_DATABASE ?? '',
-      user: process.env.PG_USER ?? '',
       connectionString: process.env.PG_CONNECTION_STRING ?? '',
     });
   }

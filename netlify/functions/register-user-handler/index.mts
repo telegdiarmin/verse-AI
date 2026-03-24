@@ -30,7 +30,7 @@ const registerUserHandler: RegisterUserHandlerInterface = async (request) => {
     const responseData: RegisterUserHandlerResponseType = {
       userData: {
         name: result.rows[0].name,
-        userId: result.rows[0].user_id,
+        userId: result.rows[0].id,
       },
     };
 
@@ -43,9 +43,8 @@ const registerUserHandler: RegisterUserHandlerInterface = async (request) => {
 };
 
 export default async (request: Request) => {
-  const parsedRequest = RegisterUserHandlerRequestSchema.parse(await request.json());
-
   try {
+    const parsedRequest = RegisterUserHandlerRequestSchema.parse(await request.json());
     const response = await registerUserHandler(parsedRequest);
 
     return new Response(JSON.stringify(response), {
@@ -55,20 +54,6 @@ export default async (request: Request) => {
       },
     });
   } catch (error) {
-    if (!(error instanceof Error)) {
-      return new Response(
-        JSON.stringify({
-          error: 'An unknown error occurred',
-        }),
-        {
-          status: 500,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
-    }
-
     if (error instanceof ZodError) {
       return new Response(
         JSON.stringify({
@@ -82,5 +67,31 @@ export default async (request: Request) => {
         },
       );
     }
+
+    if (error instanceof Error) {
+      return new Response(
+        JSON.stringify({
+          error: error.message,
+        }),
+        {
+          status: 500,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+    }
+
+    return new Response(
+      JSON.stringify({
+        error: 'An unknown error occurred',
+      }),
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
   }
 };
