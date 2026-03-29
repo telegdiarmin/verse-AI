@@ -99,9 +99,9 @@ const generatePoemHandler: GeneratePoemHandlerInterface = async (request) => {
 
   try {
     const usersResult = await getUsers(client);
-    const userIndex = usersResult.findIndex((user) => user.userId === request.userId);
+    const currentUserIndex = usersResult.findIndex((user) => user.userId === request.userId);
 
-    if (userIndex === -1) {
+    if (currentUserIndex === -1) {
       throw new HttpException(401, 'User is not registered');
     }
 
