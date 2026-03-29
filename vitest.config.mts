@@ -4,5 +4,6 @@ export default defineConfig({
   test: {
     globals: true,
     include: ['netlify/**/*.test.ts'],
+    fileParallelism: false, // Temporarily disable to prevent DB operation conflicts
   },
 });

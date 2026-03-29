@@ -1,8 +1,22 @@
+import type { RegisterUserHandlerRequestType } from '../../../src/types/register-user-handler.types';
+import { createTestClient, seedTables, truncateTables } from '../../test-utils/db';
 import handler from './index.mts';
 
-describe('register-user-handler', () => {
+describe('register-user-handler', async () => {
+  const testClient = await createTestClient();
+
+  beforeAll(async () => {
+    await testClient.connect();
+    await truncateTables(testClient, { users: true });
+  });
+
+  afterAll(async () => {
+    await seedTables(testClient, { users: true });
+    testClient.end();
+  });
+
   it('should return user data when input is valid', async () => {
-    const payload = { name: '  John Doe  ' };
+    const payload: RegisterUserHandlerRequestType = { name: '  John Doe  ' };
 
     const response = await handler(
       new Request('http://localhost', {
@@ -23,7 +37,7 @@ describe('register-user-handler', () => {
   });
 
   it('should return a validation error when input is invalid', async () => {
-    const payload = { name: '12' };
+    const payload: RegisterUserHandlerRequestType = { name: '12' };
 
     const response = await handler(
       new Request('http://localhost', {

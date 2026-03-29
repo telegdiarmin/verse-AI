@@ -1,1 +1,1 @@
-export type VerseDataType = { verse: string; ordinal: number };
+export type VerseDataType = { poemId: string; verse: string; ordinal: number };
