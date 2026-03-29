@@ -1,4 +1,4 @@
-import { VerseDataType } from './verse-data.types';
+import type { VerseDataType } from './verse-data.types';
 
 export type FetchDataHandlerResponseType = {
   readonly registeredUsers: string[];

@@ -1,5 +1,5 @@
 CREATE TABLE verses (
-  poem_id uuid DEFAULT gen_random_uuid(),
+  poem_id uuid NOT NULL,
   verse_id uuid DEFAULT gen_random_uuid(),
   ordinal INTEGER NOT NULL,
   text TEXT NOT NULL,

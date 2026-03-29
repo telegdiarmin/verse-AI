@@ -1,5 +1,5 @@
 import z from 'zod';
-import { VerseDataType } from './verse-data.types';
+import type { VerseDataType } from './verse-data.types';
 
 export const GeneratePoemHandlerRequestSchema = z.object({
   userId: z.uuid(),

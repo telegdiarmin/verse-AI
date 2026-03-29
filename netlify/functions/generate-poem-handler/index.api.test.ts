@@ -1,4 +1,7 @@
-import type { GeneratePoemHandlerRequestType } from '../../../src/types/generate-poem-handler.types';
+import type {
+  GeneratePoemHandlerRequestType,
+  GeneratePoemHandlerResponseType,
+} from '../../../src/types/generate-poem-handler.types';
 import type { RegisterUserHandlerResponseType } from '../../../src/types/register-user-handler.types';
 import type { UserDataType } from '../../../src/types/user-data.types';
 import {
@@ -58,7 +61,19 @@ describe.skip('generatePoemHandler with live API', async () => {
       }),
     );
 
+    const responseData = await response.json();
+
+    const expectedResult: GeneratePoemHandlerResponseType = {
+      userId: expect.any(String),
+      verseData: {
+        poemId: expect.any(String),
+        ordinal: expect.any(Number),
+        verse: expect.any(String),
+      },
+    };
+
     expect(response!.status).toBe(200);
+    expect(responseData).toMatchObject(expectedResult);
 
     const combinedMockUserIds = [...mockUserData.map((user) => user.userId), mockGeneratingUserId];
     const userVerseDataResult = await getUserVerseData(testClient, combinedMockUserIds);

@@ -1,4 +1,4 @@
-import { ResetHandlerInterface } from '../../../src/types/reset-handler.types';
+import type { ResetHandlerInterface } from '../../../src/types/reset-handler.types';
 
 /**
  * Handler for resetting all data in the pool. For security reasons, it has to be called by an existing user. Returns nothing.
@@ -6,7 +6,7 @@ import { ResetHandlerInterface } from '../../../src/types/reset-handler.types';
  * @param userId The ID of the user to be reset
  */
 
-const handler: ResetHandlerInterface = async (userId) => {
+const handler: ResetHandlerInterface = async (_userId) => {
   throw new Error('Not implemented');
 };
 

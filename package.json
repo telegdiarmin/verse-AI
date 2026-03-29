@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "typecheck": "tsc --build tsconfig.json",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
     "start": "ng serve",

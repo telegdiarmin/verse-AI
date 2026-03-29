@@ -18,6 +18,7 @@ import {
   GoogleGenerativeAI,
   type GenerateContentResult,
 } from '@google/generative-ai';
+import type { VerseDataType } from '../../../src/types/verse-data.types';
 
 type DeepPartial<T> = {
   [P in keyof T]?: DeepPartial<T[P]>;
@@ -84,6 +85,7 @@ describe('generatePoemHandler', async () => {
     const expectedResult: GeneratePoemHandlerResponseType = {
       userId: expect.any(String),
       verseData: {
+        poemId: expect.any(String),
         ordinal: expect.any(Number),
         verse: expect.any(String),
       },
@@ -109,12 +111,15 @@ describe('generatePoemHandler', async () => {
     const combinedMockUserIds = [...mockUserData.map((user) => user.userId), mockGeneratingUserId];
     const userVerseDataResult = await getUserVerseData(testClient, combinedMockUserIds);
 
+    const expectedResult: Record<string, VerseDataType> = {
+      poemId: expect.any(String),
+      ordinal: expect.any(Number),
+      verse: expect.any(String),
+    };
+
     for (const [userId, verseData] of Object.entries(userVerseDataResult)) {
       expect(combinedMockUserIds).toContain(userId);
-      expect(verseData).toEqual({
-        ordinal: expect.any(Number),
-        verse: expect.any(String),
-      });
+      expect(verseData).toEqual(expectedResult);
     }
   });
 

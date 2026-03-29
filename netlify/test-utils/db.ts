@@ -86,6 +86,7 @@ export const getUserVerseData = async (
     `
       SELECT
         uv.user_id,
+        v.poem_id,
         v.ordinal,
         v.text
       FROM
@@ -99,7 +100,7 @@ export const getUserVerseData = async (
 
   const map: Record<string, VerseDataType> = {};
   for (const row of result.rows) {
-    map[row.user_id] = { ordinal: row.ordinal, verse: row.text };
+    map[row.user_id] = { poemId: row.poem_id, ordinal: row.ordinal, verse: row.text };
   }
   return map;
 };

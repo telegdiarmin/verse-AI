@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { ZodError } from 'zod';
+import { v4 as uuidv4 } from 'uuid';
 import {
   GeneratePoemHandlerRequestSchema,
   type GeneratePoemHandlerInterface,
@@ -49,14 +50,14 @@ const randomMapVersesToUsers = (
   users: UserDataType[],
 ): UserVerseMapType => {
   const shuffledUsers = [...users].sort(() => 0.5 - Math.random());
-  const verseData: UserVerseMapType = {};
+  const userVerseMap: UserVerseMapType = {};
 
   verses.forEach((verse, index) => {
     const user = shuffledUsers[index % shuffledUsers.length];
-    verseData[user.userId] = verse;
+    userVerseMap[user.userId] = verse;
   });
 
-  return verseData;
+  return userVerseMap;
 };
 
 const insertVerseAndLinkToUser = async (
@@ -64,15 +65,15 @@ const insertVerseAndLinkToUser = async (
   userId: string,
   verseData: VerseDataType,
 ) => {
-  const { ordinal, verse } = verseData;
+  const { poemId, ordinal, verse } = verseData;
   await client.query(
     /* sql */ `
       WITH
         inserted_verse AS (
           INSERT INTO
-            verses (ordinal, text)
+            verses (poem_id, ordinal, text)
           VALUES
-            ($1, $2)
+            ($1, $2, $3)
           RETURNING
             poem_id,
             verse_id
@@ -80,13 +81,13 @@ const insertVerseAndLinkToUser = async (
       INSERT INTO
         users_verses (user_id, poem_id, verse_id)
       SELECT
-        $3,
+        $4,
         poem_id,
         verse_id
       FROM
         inserted_verse;
     `,
-    [ordinal, verse, userId],
+    [poemId, ordinal, verse, userId],
   );
 };
 
@@ -128,7 +129,10 @@ const generatePoemHandler: GeneratePoemHandlerInterface = async (request) => {
     const { response } = await model.generateContent(getGeneratePoemPrompt(verseCount));
     const poem = response.text();
 
+    const poemId = uuidv4();
+
     const verses: VerseDataType[] = [...poem.matchAll(/\((\d+)\.\)\s+([^|]+)/g)].map((match) => ({
+      poemId,
       ordinal: Number(match[1]),
       verse: match[2].trim(),
     }));
