@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 
 import { ChipList } from './components/ui-elements/chip-list/chip-list';
 import { NotificationService } from './services/notification';
-import { Snackbar } from "./components/ui-elements/snackbar/snackbar";
+import { Snackbar } from './components/ui-elements/snackbar/snackbar';
 
 @Component({
   selector: 'vai-root',

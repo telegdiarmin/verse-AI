@@ -15,7 +15,10 @@ export class ApiService {
     // TODO: just a simulation, add real API call
     this._notificationservice.showNotification('loading', 'Generálás folyamatban...');
 
-    setTimeout(() => this._notificationservice.showNotification('success', 'Sikeres generálás!'), 4000);
+    setTimeout(
+      () => this._notificationservice.showNotification('success', 'Sikeres generálás!'),
+      4000,
+    );
   }
 
   public clearAllData(): void {

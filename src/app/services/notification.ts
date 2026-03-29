@@ -3,7 +3,7 @@ import { Injectable, signal } from '@angular/core';
 export type NotificationType = 'loading' | 'error' | 'success';
 
 export interface NotificationConfig {
-  notificationType: NotificationType,
+  notificationType: NotificationType;
   message: string;
 }
 

@@ -13,10 +13,14 @@
   </div>
 </div>
 
-@let notification = notificationService.currentNotification(); 
+@let notification = notificationService.currentNotification();
 
 @if (notification) {
   <div class="notification">
-    <vai-snackbar [message]="notification.message" [notificationType]="notification.notificationType" (discard)="notificationService.discardNotification()" />
+    <vai-snackbar
+      [message]="notification.message"
+      [notificationType]="notification.notificationType"
+      (discard)="notificationService.discardNotification()"
+    />
   </div>
 }

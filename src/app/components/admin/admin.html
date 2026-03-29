@@ -1,7 +1,7 @@
 @if (showConfirmReset()) {
-  <vai-button [destructive]="true" label="Törlés"/>
-  <vai-button (onClick)="showConfirmReset.set(false)" label="Mégsem"/>
+  <vai-button [destructive]="true" label="Törlés" />
+  <vai-button (onClick)="showConfirmReset.set(false)" label="Mégsem" />
 } @else {
-  <vai-button (onClick)="generatePoem()" label="Generálj"/>
-  <vai-button [destructive]="true" (onClick)="showConfirmReset.set(true)" label="Törlés"/>
+  <vai-button (onClick)="generatePoem()" label="Generálj" />
+  <vai-button [destructive]="true" (onClick)="showConfirmReset.set(true)" label="Törlés" />
 }

@@ -15,7 +15,9 @@ import { ApiService } from '../../services/api';
   styleUrl: './registration.css',
 })
 export class Registration {
-  protected userNameFormControl = new FormControl('', { validators: [Validators.required, Validators.minLength(3)] });
+  protected userNameFormControl = new FormControl('', {
+    validators: [Validators.required, Validators.minLength(3)],
+  });
 
   constructor(
     private readonly _router: Router,
