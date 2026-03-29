@@ -19,10 +19,7 @@ import {
   type GenerateContentResult,
 } from '@google/generative-ai';
 import type { VerseDataType } from '../../../src/types/verse-data.types';
-
-type DeepPartial<T> = {
-  [P in keyof T]?: DeepPartial<T[P]>;
-};
+import type { DeepPartial } from '../../test-utils/types';
 
 const mockGenerateContentResponse: Promise<GenerateContentResult> = Promise.resolve({
   response: {
@@ -40,24 +37,30 @@ const mockModel: DeepPartial<GenerativeModel> = {
 
 const GoogleGenerativeAiSpy = vi.spyOn(GoogleGenerativeAI.prototype, 'getGenerativeModel');
 
+const mockUserData: UserDataType[] = [
+  { userId: '8e4ef280-3ced-4e59-b170-84525217fb1d', name: 'User 1' },
+  { userId: 'deeb478d-81d0-46d8-ba7a-467142c7a04b', name: 'User 2' },
+  { userId: '4d2328b3-af45-47d1-9a71-fa3bc319d934', name: 'User 3' },
+];
+
 describe('generatePoemHandler', async () => {
   const testClient = await createTestClient();
 
   let mockGeneratingUserId: UserDataType['userId'];
-  const mockUserData: UserDataType[] = [
-    { userId: '00000000-0000-0000-0000-000000000001', name: 'User 1' },
-    { userId: '00000000-0000-0000-0000-000000000002', name: 'User 2' },
-    { userId: '00000000-0000-0000-0000-000000000003', name: 'User 3' },
-  ];
 
   beforeAll(async () => {
     await testClient.connect();
-    await truncateTables(testClient, { users: true });
 
+    await truncateTables(testClient);
     await insertMockUsers(testClient, mockUserData);
+
     mockGeneratingUserId = await registerMockUser('Test User');
 
     GoogleGenerativeAiSpy.mockReturnValue(mockModel as GenerativeModel);
+  });
+
+  afterEach(async () => {
+    await truncateTables(testClient, { verses: true, users_verses: true });
   });
 
   afterAll(async () => {
@@ -124,7 +127,7 @@ describe('generatePoemHandler', async () => {
   });
 
   it('should return a validation error when input is invalid', async () => {
-    const payload = { userId: 'invalid-uuid' };
+    const payload: GeneratePoemHandlerRequestType = { userId: 'invalid-uuid' };
 
     const response = await handler(
       new Request('http://localhost', {
