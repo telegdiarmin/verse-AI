@@ -33,6 +33,7 @@
         "npm:prettier-plugin-sql@0.20",
         "npm:prettier@^3.8.1",
         "npm:rxjs@7.8",
+        "npm:supabase@^2.84.4",
         "npm:tslib@^2.3.0",
         "npm:typescript@~5.9.2",
         "npm:uuid@13",

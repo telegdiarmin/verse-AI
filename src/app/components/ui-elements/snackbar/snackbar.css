@@ -1,0 +1,28 @@
+.notification-container {
+  background-color: bisque;
+  padding: 10px 20px;
+  border-radius: 12px;
+  filter: var(--elevation);
+  width: 100%;
+  color: var(--color-text);
+  font-size: 1.2rem;
+  cursor: default;
+  user-select: none;
+
+  &:active {
+    filter: none;
+    transform: scale(0.98);
+  }
+
+  &.success {
+    background-color: #73bb73;
+  }
+
+  &.error {
+    background-color: #b74b4b;
+  }
+
+  &.loading {
+    background-color: #a3a191;
+  }
+}

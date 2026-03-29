@@ -1,12 +1,13 @@
 import { Component, signal } from '@angular/core';
-import { provideRouter, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 
-import { routes } from './app.routes';
 import { ChipList } from './components/ui-elements/chip-list/chip-list';
+import { NotificationService } from './services/notification';
+import { Snackbar } from './components/ui-elements/snackbar/snackbar';
 
 @Component({
   selector: 'vai-root',
-  imports: [RouterOutlet, ChipList],
+  imports: [RouterOutlet, ChipList, Snackbar],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
@@ -17,7 +18,7 @@ export class App {
   protected readonly mockItems = [
     'Pigen',
     'Barnabás',
-    'Fábi',
+    'ZG',
     'Puli',
     'René',
     'Misi',
@@ -31,5 +32,8 @@ export class App {
     'Fábi',
     'Bande',
   ];
+
   protected readonly mockCurrentUser = 'Bande';
+
+  constructor(protected readonly notificationService: NotificationService) {}
 }
