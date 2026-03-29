@@ -8,6 +8,8 @@ import {
 import { PostgresClient } from '../../lib/postgres/get-client';
 
 import 'dotenv/config';
+import { jsonResponse } from '../../lib/response/json-response';
+import { HttpException } from '../../lib/exceptions/http-exception';
 
 const registerUserHandler: RegisterUserHandlerInterface = async (request) => {
   const client = await PostgresClient.getConnectedClient();
@@ -35,8 +37,6 @@ const registerUserHandler: RegisterUserHandlerInterface = async (request) => {
     };
 
     return responseData;
-  } catch (error) {
-    throw error;
   } finally {
     await client.end();
   }
@@ -55,43 +55,15 @@ export default async (request: Request) => {
     });
   } catch (error) {
     if (error instanceof ZodError) {
-      return new Response(
-        JSON.stringify({
-          error: error.message,
-        }),
-        {
-          status: 400,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
+      return jsonResponse({ error: error.message }, 400);
     }
 
-    if (error instanceof Error) {
-      return new Response(
-        JSON.stringify({
-          error: error.message,
-        }),
-        {
-          status: 500,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      );
+    if (error instanceof HttpException) {
+      return jsonResponse({ error: error.message }, error.statusCode);
     }
 
-    return new Response(
-      JSON.stringify({
-        error: 'An unknown error occurred',
-      }),
-      {
-        status: 500,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    );
+    console.error('[generate-poem-handler] Unexpected error:', error);
+    const message = error instanceof Error ? error.message : 'An unknown error occurred';
+    return jsonResponse({ error: message }, 500);
   }
 };

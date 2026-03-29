@@ -12,26 +12,10 @@ import { HttpException } from '../../lib/exceptions/http-exception';
 import type { UserDataType } from '../../../src/types/user-data.types';
 import type { Client } from 'pg';
 import type { VerseDataType } from '../../../src/types/verse-data.types';
+import { jsonResponse } from '../../lib/response/json-response';
+import { getUsers } from '../../lib/postgres/users';
 
 export type UserVerseMapType = Record<string, VerseDataType>;
-
-const getUsers = async (client: Client): Promise<UserDataType[]> => {
-  const usersResult = await client.query(/* sql */
-  `
-    SELECT
-      id,
-      name
-    FROM
-      users;
-  `);
-
-  const users: UserDataType[] = usersResult.rows.map((row) => ({
-    userId: row.id,
-    name: row.name,
-  }));
-
-  return users;
-};
 
 const getGeneratePoemPrompt = (verseCount: number): string => {
   return `
@@ -171,9 +155,3 @@ export default async (request: Request) => {
     return jsonResponse({ error: message }, 500);
   }
 };
-
-const jsonResponse = (body: object, status: number): Response =>
-  new Response(JSON.stringify(body), {
-    status,
-    headers: { 'Content-Type': 'application/json' },
-  });
