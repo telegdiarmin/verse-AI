@@ -44,3 +44,10 @@
     }
   }
 }
+
+.notification {
+  position: fixed;
+  top: 10dvh;
+  width: var(--content-width);
+  max-width: var(--content-max-width);
+}

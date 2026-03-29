@@ -1,0 +1,9 @@
+  <div [class.success]="notificationType() === 'success'" 
+    [class.error]="notificationType() === 'error'"
+    [class.loading]="notificationType() === 'loading'"
+    (click)="discard.emit()"
+    class="notification-container"
+    role="button"
+  >
+    <div class="notification-mesage">{{ message() }}</div>
+  </div>

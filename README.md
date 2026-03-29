@@ -84,6 +84,8 @@ pnpm start:backend
 
 Then run `pnpm start` in a separate terminal for the Angular frontend.
 
+**NOTE**: On Windows you might need to run it as administrator because of symlinks.
+
 ## Running tests
 
 Backend tests are integration tests that hit the local Supabase database. Make sure Supabase is running before executing them:

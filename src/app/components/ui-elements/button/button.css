@@ -21,7 +21,7 @@
     &:disabled {
       opacity: 0.5;
       transform: none;
-      filter: drop-shadow(5px 5px 10px #222);
+      filter: var(--elevation);
     }
 
     &.destructive {
