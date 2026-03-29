@@ -10,7 +10,7 @@ import { PostgresClient } from '../../lib/postgres/get-client';
 import 'dotenv/config';
 
 const registerUserHandler: RegisterUserHandlerInterface = async (request) => {
-  const client = await PostgresClient.getClient();
+  const client = await PostgresClient.getConnectedClient();
 
   try {
     const result = await client.query(
