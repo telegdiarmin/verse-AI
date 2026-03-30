@@ -5,10 +5,10 @@ import {
 } from '../../../src/types/reset-handler.types';
 import { HttpException } from '../../lib/exceptions/http-exception';
 import { jsonResponse } from '../../lib/response/json-response';
-import { PostgresClient } from '../../lib/postgres/get-client';
+import { getConnectedClient } from '../../lib/postgres/get-client';
 
 const resetHandler: ResetHandlerInterface = async (request) => {
-  const client = await PostgresClient.getConnectedClient();
+  const client = await getConnectedClient();
 
   try {
     const currentUserResult = await client.query(
@@ -42,14 +42,9 @@ const resetHandler: ResetHandlerInterface = async (request) => {
 export default async (request: Request) => {
   try {
     const parsedRequest = ResetHandlerRequestSchema.parse(await request.json());
-    const response = await resetHandler(parsedRequest);
+    await resetHandler(parsedRequest);
 
-    return new Response(JSON.stringify(response), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return jsonResponse({}, 200);
   } catch (error) {
     if (error instanceof ZodError) {
       return jsonResponse({ error: error.message }, 400);

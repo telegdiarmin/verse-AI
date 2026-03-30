@@ -7,12 +7,10 @@ import type {
   FetchDataHandlerRequestType,
   FetchDataHandlerResponseType,
 } from '../../../src/types/fetch-data-handler.types';
-import type { RegisterUserHandlerResponseType } from '../../../src/types/register-user-handler.types';
 import type { UserDataType } from '../../../src/types/user-data.types';
-import { createTestClient, insertMockUsers, seedTables, truncateTables } from '../../test-utils/db';
+import { createTestClient, seedTables, truncateTables } from '../../test-utils/db';
 import type { DeepPartial } from '../../test-utils/types';
-import generatePoemHandler from '../generate-poem-handler/index.mts';
-import registerUserHandler from '../register-user-handler/index.mts';
+import { registerMockUser, generateMockPoem, insertMockUsers } from '../../test-utils/helpers';
 import handler from './index.mts';
 
 const mockGenerateContentResponse: Promise<GenerateContentResult> = Promise.resolve({
@@ -100,12 +98,12 @@ describe('fetchDataHandler', async () => {
     expect(response).toBeDefined();
     const responseData = (await response!.json()) as FetchDataHandlerResponseType;
 
-    const exectedResult: Partial<FetchDataHandlerResponseType> = {
+    const expectedResult: Partial<FetchDataHandlerResponseType> = {
       registeredUsers: ['User 1', 'User 2', 'User 3'],
       userData: { userId: mockUserId, name: 'Test User' },
     };
 
-    expect(responseData).toMatchObject(exectedResult);
+    expect(responseData).toMatchObject(expectedResult);
     expect(responseData.registeredUsers).not.toContain('Test User');
     expect(responseData).not.toHaveProperty('verseData');
   });
@@ -159,27 +157,3 @@ describe('fetchDataHandler', async () => {
     });
   });
 });
-
-const registerMockUser = async (name: string): Promise<string> => {
-  const registerResponse = await registerUserHandler(
-    new Request('http://localhost', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name }),
-    }),
-  );
-  const registerData = (await registerResponse.json()) as {
-    userData: { userId: string };
-  } satisfies DeepPartial<RegisterUserHandlerResponseType>;
-  return registerData.userData.userId;
-};
-
-const generateMockPoem = async (userId: string): Promise<void> => {
-  await generatePoemHandler(
-    new Request('http://localhost', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId }),
-    }),
-  );
-};

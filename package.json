@@ -15,6 +15,7 @@
     "netlify:dev": "netlify dev",
     "supabase:start": "supabase start",
     "supabase:reset": "supabase db reset",
+    "supabase:push": "supabase db push",
     "supabase:stop": "supabase stop"
   },
   "private": true,

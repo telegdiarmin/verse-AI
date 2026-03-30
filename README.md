@@ -113,4 +113,10 @@ pnpm test
 | `pnpm netlify:dev`    | Start Netlify dev server only                                      |
 | `pnpm supabase:start` | Start the local Supabase stack                                     |
 | `pnpm supabase:reset` | Re-apply all migrations and re-seed the database                   |
+| `pnpm supabase:push`  | Pushes local DB schema migrations to remote                        |
 | `pnpm supabase:stop`  | Stop the local Supabase stack                                      |
+
+## Maintaining Supabase
+
+After a successful local schema migration the changes has to be updated on the remote side as well using the
+`pnpm supabase:push` command.

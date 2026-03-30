@@ -1,4 +1,4 @@
-export const jsonResponse = (body: object, status: number): Response =>
+export const jsonResponse = (body: Record<string, unknown>, status: number): Response =>
   new Response(JSON.stringify(body), {
     status,
     headers: { 'Content-Type': 'application/json' },
