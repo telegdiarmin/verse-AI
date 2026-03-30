@@ -126,6 +126,22 @@ describe('generatePoemHandler', async () => {
     }
   });
 
+  it('should return 401 if the user is not registered', async () => {
+    const payload: GeneratePoemHandlerRequestType = {
+      userId: '9d87783e-14ed-4476-8a4d-9f9183b332dd', // Non-existent user ID
+    };
+
+    const response = await handler(
+      new Request('http://localhost', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      }),
+    );
+
+    expect(response!.status).toBe(401);
+  });
+
   it('should return a validation error when input is invalid', async () => {
     const payload: GeneratePoemHandlerRequestType = { userId: 'invalid-uuid' };
 

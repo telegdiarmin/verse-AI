@@ -85,7 +85,7 @@ export default async (request: Request) => {
       return jsonResponse({ error: error.message }, error.statusCode);
     }
 
-    console.error('[generate-poem-handler] Unexpected error:', error);
+    console.error('[fetch-data-handler] Unexpected error:', error);
     const message = error instanceof Error ? error.message : 'An unknown error occurred';
     return jsonResponse({ error: message }, 500);
   }
