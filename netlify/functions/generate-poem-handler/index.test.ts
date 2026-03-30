@@ -3,16 +3,8 @@ import type {
   GeneratePoemHandlerResponseType,
 } from '../../../src/types/generate-poem-handler.types';
 import handler from './index.mts';
-import registerUserHandler from '../register-user-handler/index.mts';
-import {
-  createTestClient,
-  getUserVerseData,
-  insertMockUsers,
-  seedTables,
-  truncateTables,
-} from '../../test-utils/db';
+import { createTestClient, seedTables, truncateTables } from '../../test-utils/db';
 import type { UserDataType } from '../../../src/types/user-data.types';
-import type { RegisterUserHandlerResponseType } from '../../../src/types/register-user-handler.types';
 import {
   GenerativeModel,
   GoogleGenerativeAI,
@@ -20,6 +12,7 @@ import {
 } from '@google/generative-ai';
 import type { VerseDataType } from '../../../src/types/verse-data.types';
 import type { DeepPartial } from '../../test-utils/types';
+import { getUserVerseData, insertMockUsers, registerMockUser } from '../../test-utils/helpers';
 
 const mockGenerateContentResponse: Promise<GenerateContentResult> = Promise.resolve({
   response: {
@@ -160,17 +153,3 @@ describe('generatePoemHandler', async () => {
     });
   });
 });
-
-const registerMockUser = async (name: string): Promise<string> => {
-  const registerResponse = await registerUserHandler(
-    new Request('http://localhost', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name }),
-    }),
-  );
-  const registerData = (await registerResponse.json()) as {
-    userData: { userId: string };
-  } satisfies DeepPartial<RegisterUserHandlerResponseType>;
-  return registerData.userData.userId;
-};

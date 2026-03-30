@@ -6,7 +6,7 @@ import {
 } from '../../../src/types/fetch-data-handler.types';
 import { jsonResponse } from '../../lib/response/json-response';
 import { HttpException } from '../../lib/exceptions/http-exception';
-import { PostgresClient } from '../../lib/postgres/get-client';
+import { getConnectedClient } from '../../lib/postgres/get-client';
 import { getUsers } from '../../lib/postgres/users';
 import type { Client } from 'pg';
 import type { VerseDataType } from '../../../src/types/verse-data.types';
@@ -43,7 +43,7 @@ const getVerseData = async (client: Client, userId: string): Promise<VerseDataTy
 };
 
 const fetchDataHandler: FetchDataHandlerInterface = async (request) => {
-  const client = await PostgresClient.getConnectedClient();
+  const client = await getConnectedClient();
 
   try {
     const registeredUsersData = await getUsers(client);
@@ -66,8 +66,8 @@ const fetchDataHandler: FetchDataHandlerInterface = async (request) => {
     };
 
     return responseData;
-  } catch (error) {
-    throw error;
+  } finally {
+    await client.end();
   }
 };
 

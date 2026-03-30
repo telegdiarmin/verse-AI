@@ -5,14 +5,14 @@ import {
   type RegisterUserHandlerInterface,
   type RegisterUserHandlerResponseType,
 } from '../../../src/types/register-user-handler.types';
-import { PostgresClient } from '../../lib/postgres/get-client';
+import { getConnectedClient } from '../../lib/postgres/get-client';
 
 import 'dotenv/config';
 import { jsonResponse } from '../../lib/response/json-response';
 import { HttpException } from '../../lib/exceptions/http-exception';
 
 const registerUserHandler: RegisterUserHandlerInterface = async (request) => {
-  const client = await PostgresClient.getConnectedClient();
+  const client = await getConnectedClient();
 
   try {
     const result = await client.query(
@@ -47,12 +47,7 @@ export default async (request: Request) => {
     const parsedRequest = RegisterUserHandlerRequestSchema.parse(await request.json());
     const response = await registerUserHandler(parsedRequest);
 
-    return new Response(JSON.stringify(response), {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return jsonResponse(response, 200);
   } catch (error) {
     if (error instanceof ZodError) {
       return jsonResponse({ error: error.message }, 400);
