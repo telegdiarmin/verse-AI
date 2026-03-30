@@ -3,7 +3,7 @@ import type { VerseDataType } from './verse-data.types';
 import type { UserDataType } from './user-data.types';
 
 export const FetchDataHandlerRequestSchema = z.object({
-  userId: z.union([z.uuid(), z.undefined()]),
+  userId: z.uuid().optional(),
 });
 export type FetchDataHandlerRequestType = z.infer<typeof FetchDataHandlerRequestSchema>;
 

@@ -3,8 +3,6 @@ import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
 import 'dotenv/config';
-import type { VerseDataType } from '../../src/types/verse-data.types';
-import type { UserDataType } from '../../src/types/user-data.types';
 
 const PG_CONNECTION_STRING = process.env.PG_CONNECTION_STRING;
 
@@ -65,42 +63,4 @@ export const seedTables = async (
     const sql = readFileSync(filePath, 'utf-8');
     await client.query(sql);
   }
-};
-
-export const insertMockUsers = async (client: Client, users: UserDataType[]): Promise<void> => {
-  if (users.length === 0) return;
-  const valuePlaceholders = users.map((_, i) => `($${i * 2 + 1}, $${i * 2 + 2})`).join(', ');
-  const params = users.flatMap((user) => [user.userId, user.name]);
-
-  await client.query(`INSERT INTO users (id, name) VALUES ${valuePlaceholders}`, params);
-};
-
-export const getUserVerseData = async (
-  client: Client,
-  userIds: string[],
-): Promise<Record<string, VerseDataType>> => {
-  if (userIds.length === 0) return {};
-  const placeholders = userIds.map((_, i) => `$${i + 1}`).join(', ');
-
-  const result = await client.query(
-    `
-      SELECT
-        uv.user_id,
-        v.poem_id,
-        v.ordinal,
-        v.text
-      FROM
-        verses v
-        JOIN users_verses uv ON v.poem_id = uv.poem_id AND v.verse_id = uv.verse_id
-      WHERE
-        uv.user_id IN (${placeholders})
-    `,
-    userIds,
-  );
-
-  const map: Record<string, VerseDataType> = {};
-  for (const row of result.rows) {
-    map[row.user_id] = { poemId: row.poem_id, ordinal: row.ordinal, verse: row.text };
-  }
-  return map;
 };

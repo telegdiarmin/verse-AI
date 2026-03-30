@@ -3,10 +3,10 @@ import {
   GoogleGenerativeAI,
   type GenerateContentResult,
 } from '@google/generative-ai';
-import { createTestClient, insertMockUsers, seedTables, truncateTables } from '../../test-utils/db';
+import { createTestClient, seedTables, truncateTables } from '../../test-utils/db';
 import type { UserDataType } from '../../../src/types/user-data.types';
 import type { DeepPartial } from '../../test-utils/types';
-import generatePoemHandler from '../generate-poem-handler/index.mts';
+import { generateMockPoem, insertMockUsers } from '../../test-utils/helpers';
 import type { ResetHandlerRequestType } from '../../../src/types/reset-handler.types';
 import handler from './index.mts';
 
@@ -137,13 +137,3 @@ describe('resetHandler', async () => {
     });
   });
 });
-
-const generateMockPoem = async (userId: string): Promise<void> => {
-  await generatePoemHandler(
-    new Request('http://localhost', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId }),
-    }),
-  );
-};

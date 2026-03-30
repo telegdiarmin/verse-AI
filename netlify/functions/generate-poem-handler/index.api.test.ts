@@ -4,13 +4,8 @@ import type {
 } from '../../../src/types/generate-poem-handler.types';
 import type { RegisterUserHandlerResponseType } from '../../../src/types/register-user-handler.types';
 import type { UserDataType } from '../../../src/types/user-data.types';
-import {
-  createTestClient,
-  getUserVerseData,
-  insertMockUsers,
-  seedTables,
-  truncateTables,
-} from '../../test-utils/db';
+import { createTestClient, seedTables, truncateTables } from '../../test-utils/db';
+import { insertMockUsers, getUserVerseData } from '../../test-utils/helpers';
 import registerUserHandler from '../register-user-handler/index.mts';
 import handler from './index.mts';
 

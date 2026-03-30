@@ -1,4 +1,3 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
 import { ZodError } from 'zod';
 import { v4 as uuidv4 } from 'uuid';
 import {
@@ -6,7 +5,7 @@ import {
   type GeneratePoemHandlerInterface,
   type GeneratePoemHandlerResponseType,
 } from '../../../src/types/generate-poem-handler.types';
-import { PostgresClient } from '../../lib/postgres/get-client';
+import { getConnectedClient } from '../../lib/postgres/get-client';
 import 'dotenv/config';
 import { HttpException } from '../../lib/exceptions/http-exception';
 import type { UserDataType } from '../../../src/types/user-data.types';
@@ -14,6 +13,7 @@ import type { Client } from 'pg';
 import type { VerseDataType } from '../../../src/types/verse-data.types';
 import { jsonResponse } from '../../lib/response/json-response';
 import { getUsers } from '../../lib/postgres/users';
+import { getModel } from '../../lib/llm/get-model';
 
 export type UserVerseMapType = Record<string, VerseDataType>;
 
@@ -95,7 +95,7 @@ const transaction = async (
 };
 
 const generatePoemHandler: GeneratePoemHandlerInterface = async (request) => {
-  const client = await PostgresClient.getConnectedClient();
+  const client = await getConnectedClient();
 
   try {
     const usersResult = await getUsers(client);
@@ -107,8 +107,7 @@ const generatePoemHandler: GeneratePoemHandlerInterface = async (request) => {
 
     const verseCount = usersResult.length;
 
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+    const model = await getModel();
 
     const { response } = await model.generateContent(getGeneratePoemPrompt(verseCount));
     const poem = response.text();
@@ -120,6 +119,10 @@ const generatePoemHandler: GeneratePoemHandlerInterface = async (request) => {
       ordinal: Number(match[1]),
       verse: match[2].trim(),
     }));
+
+    if (verses.some((verse) => verse.ordinal <= 0)) {
+      throw new HttpException(500, 'Generated poem contained an invalid verse ordinal');
+    }
 
     const userVerseMap = randomMapVersesToUsers(verses, usersResult);
 
