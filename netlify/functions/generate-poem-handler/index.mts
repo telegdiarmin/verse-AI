@@ -17,13 +17,32 @@ import { getModel } from '../../lib/llm/get-model';
 
 export type UserVerseMapType = Record<string, VerseDataType>;
 
-const getGeneratePoemPrompt = (verseCount: number): string => {
+// Allow only letters (a-z, A-Z, Hungarian accented) and hyphens, max 20 chars
+export const SAFE_KEYWORD_PATTERN = /^[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ\-]{1,20}$/u;
+
+export const prepareKeywords = (keywords: string[], verseCount: number): string[] => {
+  const maxKeywords = Math.floor(verseCount / 2);
+  return keywords
+    .map((keyword) => keyword.trim())
+    .filter((keyword) => SAFE_KEYWORD_PATTERN.test(keyword))
+    .map((keyword) => `<${keyword}>`)
+    .slice(0, maxKeywords);
+};
+
+const getGeneratePoemPrompt = (verseCount: number, keywords?: string[]): string => {
+  // Keywords are wrapped in angle brackets to minimize the risk of injection attacks
+  const keywordsInstruction =
+    keywords && keywords.length > 0
+      ? `A versben kontextusba illeszkedően szerepeljenek a következő kulcsszavak: ${keywords.join(', ')}.`
+      : '';
+
   return `
   LEÍRÁS:
   Generálj egy magyar nyelvű húsvéti locsolóverset, amely ${verseCount} sorból áll.
   A vers álljon egységesen 12-14 szótagú sorokból és a rímképlet legyen AABB.
   A vers legyen humoros és könnyed, legyen modern stílusú és tartalmazzon egy vagy több utalást a tavaszra vagy a húsvétra.
   Ne használj ismétlődő sorokat, minden sor legyen egyedi.
+  ${keywordsInstruction}
   VISSZATÉRÉSI FORMÁTUM:
   A verset sorokra bontva add vissza a következő formátumban: pl. "(1.) Első sor szövege  | (2.) Második sor szövege" | ..."
   `;
@@ -107,9 +126,14 @@ const generatePoemHandler: GeneratePoemHandlerInterface = async (request) => {
 
     const verseCount = usersResult.length;
 
+    const keywords =
+      request.keywords && request.keywords.length > 0
+        ? prepareKeywords(request.keywords, verseCount)
+        : undefined;
+
     const model = await getModel();
 
-    const { response } = await model.generateContent(getGeneratePoemPrompt(verseCount));
+    const { response } = await model.generateContent(getGeneratePoemPrompt(verseCount, keywords));
     const poem = response.text();
 
     const poemId = uuidv4();
