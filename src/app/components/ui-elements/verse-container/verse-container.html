@@ -1,4 +1,8 @@
 <div class="container">
-  <p class="number">{{ rowNumber() }}.</p>
-  <p class="content">{{ rowText() }}</p>
+  @if (rowNumber() && rowText()) {
+    <p class="number">{{ rowNumber() }}.</p>
+    <p class="content">{{ rowText() }}</p>
+  } @else {
+    <p class="content empty">Várj a versre!</p>
+  }
 </div>

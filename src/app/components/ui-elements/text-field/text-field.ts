@@ -1,4 +1,4 @@
-import { Component, forwardRef, input } from '@angular/core';
+import { Component, ElementRef, forwardRef, input, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -23,6 +23,10 @@ export class TextField implements ControlValueAccessor {
 
   public readonly placeholder = input<string>('');
 
+  public readonly multiline = input<boolean>(false);
+
+  @ViewChild('inputMultiline') public inputMultiLine?: ElementRef<HTMLTextAreaElement>;
+
   writeValue(value: string): void {
     this.value = value;
   }
@@ -40,5 +44,14 @@ export class TextField implements ControlValueAccessor {
   onInput(value: string) {
     this.value = value;
     this.onChange(value);
+
+    if (this.inputMultiLine) {
+      this.#autoResize(this.inputMultiLine.nativeElement);
+    }
+  }
+
+  #autoResize(textarea: HTMLTextAreaElement) {
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
   }
 }

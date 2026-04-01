@@ -19,9 +19,13 @@ export class TokenService {
     this.#userToken.set(token);
   }
 
-  setUserToken(token: string): void {
-    this.#localStorage?.setItem(TOKEN_KEY, token);
+  setUserToken(token?: string): void {
+    this.#userToken.set(token ?? '');
 
-    this.#userToken.set(token);
+    if (token) {
+      this.#localStorage?.setItem(TOKEN_KEY, token);
+    } else {
+      this.#localStorage?.removeItem(TOKEN_KEY);
+    }
   }
 }

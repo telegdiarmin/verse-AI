@@ -7,7 +7,7 @@ import { Component, input } from '@angular/core';
   styleUrl: './verse-container.css',
 })
 export class VerseContainer {
-  public readonly rowNumber = input.required<number>();
+  public readonly rowNumber = input.required<number | undefined>();
 
   public readonly rowText = input.required<string>();
 }
