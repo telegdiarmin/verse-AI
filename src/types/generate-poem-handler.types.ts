@@ -3,6 +3,7 @@ import type { VerseDataType } from './verse-data.types';
 
 export const GeneratePoemHandlerRequestSchema = z.object({
   userId: z.uuid(),
+  keywords: z.array(z.string()).optional(),
 });
 export type GeneratePoemHandlerRequestType = z.infer<typeof GeneratePoemHandlerRequestSchema>;
 

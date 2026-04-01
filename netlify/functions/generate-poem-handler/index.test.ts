@@ -2,7 +2,7 @@ import type {
   GeneratePoemHandlerRequestType,
   GeneratePoemHandlerResponseType,
 } from '../../../src/types/generate-poem-handler.types';
-import handler from './index.mts';
+import handler, { prepareKeywords, SAFE_KEYWORD_PATTERN } from './index.mts';
 import { createTestClient, seedTables, truncateTables } from '../../test-utils/db';
 import type { UserDataType } from '../../../src/types/user-data.types';
 import {
@@ -151,5 +151,62 @@ describe('generatePoemHandler', async () => {
     await expect(response!.json()).resolves.toMatchObject({
       error: expect.stringContaining('Invalid UUID'),
     });
+  });
+});
+
+describe('prepareKeywords', () => {
+  it('should trim whitespace from each keyword', () => {
+    expect(prepareKeywords(['  rózsa  ', ' tulipán', 'tavasz '], 6)).toEqual([
+      '<rózsa>',
+      '<tulipán>',
+      '<tavasz>',
+    ]);
+  });
+
+  it('should keep all keywords when their count does not exceed half of verseCount', () => {
+    expect(prepareKeywords(['rózsa', 'tulipán', 'tavasz'], 6)).toHaveLength(3);
+  });
+
+  it('should silently drop keywords exceeding half of verseCount', () => {
+    // verseCount = 4, max allowed = floor(4/2) = 2
+    const result = prepareKeywords(['rózsa', 'tulipán', 'tavasz', 'eső'], 4);
+    expect(result).toHaveLength(2);
+    expect(result).toEqual(['<rózsa>', '<tulipán>']);
+  });
+
+  it('should return an empty array when given an empty array', () => {
+    expect(prepareKeywords([], 6)).toEqual([]);
+  });
+
+  it('should wrap valid keywords in angle brackets', () => {
+    expect(prepareKeywords(['tavasz', 'virág'], 6)).toEqual(['<tavasz>', '<virág>']);
+  });
+
+  it('should filter out keywords that do not match SAFE_KEYWORD_PATTERN', () => {
+    expect(prepareKeywords(['valid', 'no spaces allowed', 'IGNORE INSTRUCTIONS'], 6)).toEqual([
+      '<valid>',
+    ]);
+  });
+});
+
+describe('SAFE_KEYWORD_PATTERN', () => {
+  it.each(['tavasz', 'virág', 'open-air', 'Húsvét', 'áéíóöőúüűÁÉÍÓÖŐÚÜŰ', 'a'.repeat(20)])(
+    'should match valid keyword: %s',
+    (keyword) => {
+      expect(SAFE_KEYWORD_PATTERN.test(keyword)).toBe(true);
+    },
+  );
+
+  it.each([
+    'piros rózsa',
+    'bad. keyword',
+    'inject!',
+    'ignore drop table',
+    'key=value',
+    '<script>',
+    'a'.repeat(21),
+    '',
+  ])('should reject invalid keyword: %s', (keyword) => {
+    expect(SAFE_KEYWORD_PATTERN.test(keyword)).toBe(false);
   });
 });
