@@ -14,18 +14,22 @@
     max-width: var(--content-max-width);
     min-height: calc(100dvh - var(--vertical-padding) * 2);
 
-    .statusbar {
-      display: flex;
-      justify-content: end;
+    .heading {
       width: 100%;
 
-      .username {
-        color: var(--color-text);
-        font-size: 1.5rem;
-        font-weight: 600;
-        border: 2px dotted var(--color-text-transparent);
-        border-radius: 50px;
-        padding: 5px 20px;
+      .statusbar {
+        display: flex;
+        justify-content: end;
+        width: 100%;
+
+        .username {
+          color: var(--color-text);
+          font-size: 1.5rem;
+          font-weight: 600;
+          border: 2px dotted var(--color-text-transparent);
+          border-radius: 50px;
+          padding: 5px 20px;
+        }
       }
     }
 

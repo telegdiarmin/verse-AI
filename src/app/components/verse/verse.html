@@ -1,2 +1,5 @@
-<vai-verse-container [rowNumber]="rowNumber()" [rowText]="rowText()" />
+<vai-verse-container
+  [rowNumber]="apiService.currentOrdinal()"
+  [rowText]="apiService.currentVerse()"
+/>
 <vai-button (onClick)="refresh()" label="Frissíts" />

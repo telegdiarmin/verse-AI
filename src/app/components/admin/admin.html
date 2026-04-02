@@ -1,5 +1,11 @@
+<vai-text-field
+  [formControl]="keywordsFormControl"
+  [multiline]="true"
+  placeholder="Mely szavakat tartalmazza"
+/>
+
 @if (showConfirmReset()) {
-  <vai-button [destructive]="true" label="Törlés" />
+  <vai-button [destructive]="true" (onClick)="clearAllData()" label="Törlés" />
   <vai-button (onClick)="showConfirmReset.set(false)" label="Mégsem" />
 } @else {
   <vai-button (onClick)="generatePoem()" label="Generálj" />

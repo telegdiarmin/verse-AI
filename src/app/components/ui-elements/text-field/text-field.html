@@ -1,6 +1,18 @@
-<input
-  [placeholder]="placeholder()"
-  [value]="value"
-  (blur)="onTouched()"
-  (input)="onInput($event.target.value)"
-/>
+@if (multiline()) {
+  <textarea
+    #inputMultiline
+    [placeholder]="placeholder()"
+    [value]="value"
+    (blur)="onTouched()"
+    (input)="onInput(inputMultiline.value)"
+    rows="3"
+  ></textarea>
+} @else {
+  <input
+    #inputSingleline
+    [placeholder]="placeholder()"
+    [value]="value"
+    (blur)="onTouched()"
+    (input)="onInput(inputSingleline.value)"
+  />
+}

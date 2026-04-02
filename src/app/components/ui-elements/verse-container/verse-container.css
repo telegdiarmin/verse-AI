@@ -6,7 +6,7 @@
     flex-direction: column;
     gap: 32px;
     border: 2px solid var(--color-text);
-    border-radius: 25px;
+    border-radius: var(--border-radius-semi-rounded);
     color: var(--color-text);
     padding: 20px 10px;
 
@@ -19,6 +19,10 @@
     .content {
       font-size: 1.8rem;
       text-align: center;
+
+      &.empty {
+        opacity: 0.5;
+      }
     }
   }
 }

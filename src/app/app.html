@@ -1,11 +1,11 @@
 <div class="content">
   <div class="heading">
     <div class="statusbar">
-      <span class="username">{{ mockCurrentUser }}</span>
+      <span class="username">{{ apiService.loggedInUser() ?? 'Nincs bejelentkezve' }}</span>
     </div>
     <img src="assets/heading2.png" />
 
-    <vai-chip-list class="chip-list" [items]="mockItems"></vai-chip-list>
+    <vai-chip-list class="chip-list" [items]="apiService.registeredUsers()"></vai-chip-list>
   </div>
 
   <div class="content-aligner">

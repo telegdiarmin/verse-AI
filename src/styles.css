@@ -16,6 +16,8 @@
   --content-max-width: 800px;
   --content-gap: 24px;
   --elevation: drop-shadow(5px 5px 10px #222);
+  --border-radius-rounded: 50px;
+  --border-radius-semi-rounded: 25px;
 }
 
 body {

@@ -1,4 +1,4 @@
-import { Component, effect } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -15,23 +15,23 @@ import { ApiService } from '../../services/api';
   styleUrl: './registration.css',
 })
 export class Registration {
+  readonly #router = inject(Router);
+  readonly #apiService = inject(ApiService);
+  readonly #tokenService = inject(TokenService);
+
   protected userNameFormControl = new FormControl('', {
     validators: [Validators.required, Validators.minLength(3)],
   });
 
-  constructor(
-    private readonly _router: Router,
-    private readonly _apiService: ApiService,
-    private readonly _tokenService: TokenService,
-  ) {
+  constructor() {
     effect(() => {
-      if (!!this._tokenService.userToken()) {
-        this._router.navigate([`/${routeVerse}`]);
+      if (!!this.#tokenService.userToken()) {
+        this.#router.navigate([`/${routeVerse}`]);
       }
     });
   }
 
   protected onRegister(): void {
-    this._apiService.registerUser(this.userNameFormControl.value ?? '');
+    this.#apiService.registerUser(this.userNameFormControl.value ?? '');
   }
 }

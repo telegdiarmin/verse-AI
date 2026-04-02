@@ -3,7 +3,7 @@
   border: 1px solid var(--color-text-transparent);
   outline: 1px solid var(--color-text);
   outline-offset: 2px;
-  border-radius: 50px;
+  border-radius: var(--border-radius-rounded);
   padding: 5px 10px;
   font-weight: 600;
   font-size: 0.875rem;
