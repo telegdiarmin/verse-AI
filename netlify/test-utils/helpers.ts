@@ -5,6 +5,7 @@ import type { DeepPartial } from './types';
 import type { Client } from 'pg';
 import type { UserDataType } from '../../src/types/user-data.types';
 import type { VerseDataType } from '../../src/types/verse-data.types';
+import type { GeneratePoemHandlerResponseType } from '../../src/types/generate-poem-handler.types';
 
 export const registerMockUser = async (name: string): Promise<string> => {
   const registerResponse = await registerUserHandler(
@@ -20,14 +21,22 @@ export const registerMockUser = async (name: string): Promise<string> => {
   return registerData.userData.userId;
 };
 
-export const generateMockPoem = async (userId: string): Promise<void> => {
-  await generatePoemHandler(
+export const generateMockPoem = async (
+  userId: string,
+): Promise<GeneratePoemHandlerResponseType> => {
+  const generateResponse = await generatePoemHandler(
     new Request('http://localhost', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ userId }),
     }),
   );
+  if (!generateResponse.ok) {
+    const errorBody = await generateResponse.text();
+    throw new Error(`generateMockPoem failed with HTTP ${generateResponse.status}: ${errorBody}`);
+  }
+  const generateData = (await generateResponse.json()) as GeneratePoemHandlerResponseType;
+  return generateData;
 };
 
 export const insertMockUsers = async (client: Client, users: UserDataType[]): Promise<void> => {

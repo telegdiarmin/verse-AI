@@ -88,11 +88,19 @@ Then run `pnpm start` in a separate terminal for the Angular frontend.
 
 ## Running tests
 
-Backend tests are integration tests that hit the local Supabase database. Make sure Supabase is running before executing them:
+Backend unit tests hit the local Supabase database. Make sure Supabase is running before executing them:
 
 ```bash
 pnpm supabase:start   # if not already running
 pnpm test:backend
+```
+
+End-to-end integration tests run against the live Netlify dev server. Make sure both Supabase and the Netlify dev server are running:
+
+```bash
+pnpm supabase:start   # if not already running
+pnpm netlify:dev      # in a separate terminal
+pnpm test:integration
 ```
 
 Frontend tests:
@@ -103,18 +111,19 @@ pnpm test
 
 ## Available scripts
 
-| Script                | Description                                                        |
-| --------------------- | ------------------------------------------------------------------ |
-| `pnpm start`          | Start the Angular dev server                                       |
-| `pnpm build`          | Build the Angular app for production                               |
-| `pnpm test`           | Run Angular unit tests                                             |
-| `pnpm test:backend`   | Run Netlify function integration tests (requires Supabase running) |
-| `pnpm start:backend`  | Start Supabase, reset DB, then start Netlify dev                   |
-| `pnpm netlify:dev`    | Start Netlify dev server only                                      |
-| `pnpm supabase:start` | Start the local Supabase stack                                     |
-| `pnpm supabase:reset` | Re-apply all migrations and re-seed the database                   |
-| `pnpm supabase:push`  | Pushes local DB schema migrations to remote                        |
-| `pnpm supabase:stop`  | Stop the local Supabase stack                                      |
+| Script                  | Description                                                                                                                                              |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm start`            | Start the Angular dev server                                                                                                                             |
+| `pnpm build`            | Build the Angular app for production                                                                                                                     |
+| `pnpm test`             | Run Angular unit tests                                                                                                                                   |
+| `pnpm test:backend`     | Run Netlify function unit tests (requires Supabase running)                                                                                              |
+| `pnpm test:integration` | Run end-to-end integration tests against the live Netlify dev server (requires both Supabase and Netlify dev servers running - run `pnpm start:backend`) |
+| `pnpm start:backend`    | Start Supabase, reset DB, then start Netlify dev                                                                                                         |
+| `pnpm netlify:dev`      | Start Netlify dev server only                                                                                                                            |
+| `pnpm supabase:start`   | Start the local Supabase stack                                                                                                                           |
+| `pnpm supabase:reset`   | Re-apply all migrations and re-seed the database                                                                                                         |
+| `pnpm supabase:push`    | Pushes local DB schema migrations to remote                                                                                                              |
+| `pnpm supabase:stop`    | Stop the local Supabase stack                                                                                                                            |
 
 ## Maintaining Supabase
 
