@@ -25,6 +25,10 @@ const getVerseData = async (client: Client, userId: string): Promise<VerseDataTy
         AND v.verse_id = uv.verse_id
       WHERE
         uv.user_id = $1
+      ORDER BY
+        v.created_at DESC
+      LIMIT
+        1
     `,
     [userId],
   );

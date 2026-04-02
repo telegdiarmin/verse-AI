@@ -16,7 +16,7 @@ import handler from './index.mts';
 const mockGenerateContentResponse: Promise<GenerateContentResult> = Promise.resolve({
   response: {
     text: () => `
-      (1.) First verse | (2.) Second verse | (3.) Third verse | (4.) Fourth verse |
+      (1.) First verse | (2.) Second verse | (3.) Third verse | (4.) Fourth verse | (5.) Fifth verse |
     `,
     functionCalls: () => undefined,
     functionCall: () => undefined,
@@ -137,6 +137,31 @@ describe('fetchDataHandler', async () => {
     };
 
     expect(responseData).toMatchObject(expectedResult);
+  });
+
+  it('should return latest verse data for the user when multiple poems have been generated', async () => {
+    const mockGeneratingUserId = await registerMockUser('Generating User');
+    const mockUserId = await registerMockUser('Test User');
+
+    const firstPoemResponse = await generateMockPoem(mockGeneratingUserId);
+    const firstPoemId = firstPoemResponse.verseData.poemId;
+
+    const secondPoemResponse = await generateMockPoem(mockGeneratingUserId);
+    const secondPoemId = secondPoemResponse.verseData.poemId;
+
+    expect(firstPoemId).not.toBe(secondPoemId);
+
+    const response = await handler(
+      new Request('http://localhost', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: mockUserId } satisfies FetchDataHandlerRequestType),
+      }),
+    );
+
+    expect(response).toBeDefined();
+    const responseData = (await response!.json()) as FetchDataHandlerResponseType;
+    expect(responseData.verseData?.poemId).toBe(secondPoemId);
   });
 
   it('should return a validation error when input is invalid', async () => {

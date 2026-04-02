@@ -11,6 +11,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:backend": "vitest run",
+    "test:integration": "vitest run --config vitest.integration.config.mts",
     "start:backend": "pnpm supabase:start && pnpm supabase:reset && pnpm netlify:dev",
     "netlify:dev": "netlify dev",
     "supabase:start": "supabase start",
