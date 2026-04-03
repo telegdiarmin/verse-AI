@@ -1,4 +1,4 @@
-import { Component, ElementRef, forwardRef, input, ViewChild } from '@angular/core';
+import { Component, ElementRef, forwardRef, input, output, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -24,6 +24,8 @@ export class TextField implements ControlValueAccessor {
   public readonly placeholder = input<string>('');
 
   public readonly multiline = input<boolean>(false);
+
+  public readonly onKeydown = output<KeyboardEvent>();
 
   @ViewChild('inputMultiline') public inputMultiLine?: ElementRef<HTMLTextAreaElement>;
 

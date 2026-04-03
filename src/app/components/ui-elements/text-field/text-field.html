@@ -5,6 +5,7 @@
     [value]="value"
     (blur)="onTouched()"
     (input)="onInput(inputMultiline.value)"
+    (keydown)="onKeydown.emit($event)"
     rows="3"
   ></textarea>
 } @else {
@@ -14,5 +15,6 @@
     [value]="value"
     (blur)="onTouched()"
     (input)="onInput(inputSingleline.value)"
+    (keydown)="onKeydown.emit($event)"
   />
 }
