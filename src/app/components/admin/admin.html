@@ -1,6 +1,7 @@
 <vai-text-field
   [formControl]="keywordsFormControl"
   [multiline]="true"
+  (onKeydown)="onKeyDown($event)"
   placeholder="Mely szavakat tartalmazza"
 />
 
