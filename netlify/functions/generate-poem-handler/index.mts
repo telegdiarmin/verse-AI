@@ -167,6 +167,12 @@ export default async (request: Request) => {
   try {
     const parsedRequest = GeneratePoemHandlerRequestSchema.parse(await request.json());
     const response = await generatePoemHandler(parsedRequest);
+
+    console.log('[generate-poem-handler] Poem generated successfully for user:', {
+      userId: parsedRequest.userId,
+      poemId: response.verseData.poemId,
+    });
+
     return jsonResponse(response, 200);
   } catch (error) {
     if (error instanceof ZodError) {

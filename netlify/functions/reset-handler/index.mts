@@ -44,6 +44,10 @@ export default async (request: Request) => {
     const parsedRequest = ResetHandlerRequestSchema.parse(await request.json());
     await resetHandler(parsedRequest);
 
+    console.log('[reset-handler] Database reset successfully by user:', {
+      userId: parsedRequest.userId,
+    });
+
     return jsonResponse({}, 200);
   } catch (error) {
     if (error instanceof ZodError) {

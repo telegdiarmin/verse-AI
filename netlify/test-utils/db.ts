@@ -4,9 +4,9 @@ import { resolve } from 'path';
 
 import 'dotenv/config';
 
-const PG_CONNECTION_STRING = process.env.PG_CONNECTION_STRING;
-
 export const createTestClient = async (): Promise<Client> => {
+  const PG_CONNECTION_STRING = process.env.PG_CONNECTION_STRING;
+
   const client = new Client({ connectionString: PG_CONNECTION_STRING });
   return client;
 };

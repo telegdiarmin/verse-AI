@@ -47,6 +47,11 @@ export default async (request: Request) => {
     const parsedRequest = RegisterUserHandlerRequestSchema.parse(await request.json());
     const response = await registerUserHandler(parsedRequest);
 
+    console.log('[register-user-handler] User registered successfully:', {
+      userId: response.userData.userId,
+      name: response.userData.name,
+    });
+
     return jsonResponse(response, 200);
   } catch (error) {
     if (error instanceof ZodError) {
