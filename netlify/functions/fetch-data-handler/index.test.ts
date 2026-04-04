@@ -16,7 +16,7 @@ import handler from './index.mts';
 const mockGenerateContentResponse: Promise<GenerateContentResult> = Promise.resolve({
   response: {
     text: () => `
-      (1.) First verse | (2.) Second verse | (3.) Third verse | (4.) Fourth verse | (5.) Fifth verse |
+      (1.) First verse | (2.) Second verse | (3.) Third verse | (4.) Fourth verse |
     `,
     functionCalls: () => undefined,
     functionCall: () => undefined,
@@ -111,7 +111,8 @@ describe('fetchDataHandler', async () => {
   it('should return registered users names, user and verse data when the user is registered and a poem has been generated', async () => {
     const mockUserId = await registerMockUser('Test User');
 
-    await generateMockPoem(mockUserData[0].userId);
+    const generatingUserId = mockUserData[0].userId;
+    await generateMockPoem(generatingUserId);
 
     const payload: FetchDataHandlerRequestType = { userId: mockUserId };
 
@@ -140,13 +141,13 @@ describe('fetchDataHandler', async () => {
   });
 
   it('should return latest verse data for the user when multiple poems have been generated', async () => {
-    const mockGeneratingUserId = await registerMockUser('Generating User');
     const mockUserId = await registerMockUser('Test User');
 
-    const firstPoemResponse = await generateMockPoem(mockGeneratingUserId);
+    const generatingUserId = mockUserData[0].userId;
+    const firstPoemResponse = await generateMockPoem(generatingUserId);
     const firstPoemId = firstPoemResponse.verseData.poemId;
 
-    const secondPoemResponse = await generateMockPoem(mockGeneratingUserId);
+    const secondPoemResponse = await generateMockPoem(generatingUserId);
     const secondPoemId = secondPoemResponse.verseData.poemId;
 
     expect(firstPoemId).not.toBe(secondPoemId);
