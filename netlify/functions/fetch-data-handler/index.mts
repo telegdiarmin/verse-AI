@@ -79,6 +79,11 @@ export default async (request: Request) => {
   try {
     const parsedRequest = FetchDataHandlerRequestSchema.parse(await request.json());
     const response = await fetchDataHandler(parsedRequest);
+
+    console.log('[fetch-data-handler] Data fetched successfully for user:', {
+      userId: parsedRequest.userId,
+    });
+
     return jsonResponse(response, 200);
   } catch (error) {
     if (error instanceof ZodError) {
