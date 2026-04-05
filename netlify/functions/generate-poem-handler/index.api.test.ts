@@ -46,7 +46,7 @@ describe.skip('generatePoemHandler with live API', async () => {
   it('should generate a poem and store verses linked to users', async () => {
     const payload: GeneratePoemHandlerRequestType = {
       userId: mockGeneratingUserId,
-      keywords: ['bővérű', 'macskakő', 'csokinyuszi'],
+      keywords: ['bővérű', 'Laura', 'csokinyuszi'],
     };
 
     const response = await handler(

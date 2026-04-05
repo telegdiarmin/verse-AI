@@ -33,16 +33,32 @@ const getGeneratePoemPrompt = (verseCount: number, keywords?: string[]): string 
   // Keywords are wrapped in angle brackets to minimize the risk of injection attacks
   const keywordsInstruction =
     keywords && keywords.length > 0
-      ? `A versben kontextusba illeszkedően szerepeljenek a következő kulcsszavak: ${keywords.join(', ')}.`
+      ? `Használd fel az alábbi kulcsszavakat a versben: ${keywords.join(', ')}
+        A megadott szavakat szervesen, erőltetés nélkül építsd be a szövegkörnyezetbe.
+        Törekedj arra, hogy az összes megadott szó szerepeljen a kész műben.
+        Amennyiben a kulcsszavak személyneveket, konkrét helyszíneket vagy speciális jellemzőket tartalmaznak, 
+        a vers témáját és narratíváját igazítsd ezekhez, hogy a végeredmény személyes és célzott legyen.
+        A név köré építs fel egy rövid, vicces szituációt vagy jellemrajzot.`
       : '';
 
   return `
   LEÍRÁS:
-  Generálj egy magyar nyelvű húsvéti locsolóverset, amely ${verseCount} sorból áll.
-  A vers álljon egységesen 12-14 szótagú sorokból és a rímképlet legyen AABB.
-  A vers legyen humoros és könnyed, legyen modern stílusú és tartalmazzon egy vagy több utalást a tavaszra vagy a húsvétra.
+  Generálj egy egyedi, magyar nyelvű, modern húsvéti locsolóverset az alábbi szempontok alapján:
+  Szerkezet és ritmus: A vers legyen pontosan ${verseCount} verssor hosszúságú.
+
+  Minden egyes sor 12-14 szótagból álljon, hogy a versnek hömpölygő, magabiztos, mégis természetes lüktetése legyen. 
+  Alkalmazz szigorú AABB (páros rím) képletet minden versszakon belül.
+  Hangvétel és karakter: A stílus legyen erősen önironikus és humoros. 
+  A locsoló ne egy klasszikus hős, hanem egy esendő, "anti-hős" karakter legyen (pl. kicsit lusta, technológiafüggő, éhes vagy éppen ügyetlen). 
+  Kerüld a hagyományos, elcsépelt fordulatokat, mint a 'szép virágszál' vagy a 'zöld erdőben jártam'. A humor forrása a modern élet kihívásai és a hagyomány kontrasztja legyen.
+
+  Nyelvezet: A szóhasználat legyen hétköznapi, de frappáns. Kerüld a túl magyarázó, száraz leírásokat. 
+  A rímek legyenek tiszták, de ne dedósak. A vers tükrözze a 2020-as évek hangulatát (pl. kütyük, gazdaság, életmód trendek).
+  A válaszod kizárólag a generált verset tartalmazza, ne fűzz hozzá bevezetőt vagy elemzést!
   Ne használj ismétlődő sorokat, minden sor legyen egyedi.
+
   ${keywordsInstruction}
+  
   VISSZATÉRÉSI FORMÁTUM:
   A verset sorokra bontva add vissza a következő formátumban: pl. "(1.) Első sor szövege  | (2.) Második sor szövege" | ..."
   `;
