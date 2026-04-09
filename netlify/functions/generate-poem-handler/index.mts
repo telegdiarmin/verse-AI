@@ -64,6 +64,30 @@ const getGeneratePoemPrompt = (verseCount: number, keywords?: string[]): string 
   `;
 };
 
+const validateVerseDataOrThrow = (verses: VerseDataType[], userCount: number): void => {
+  const ordinals = [...new Set(verses.map((verse) => verse.ordinal))].sort((a, b) => a - b);
+
+  if (ordinals[0] !== 1) {
+    throw new HttpException(500, 'Generated poem ordinals do not start at 1');
+  }
+
+  if (ordinals.length !== userCount) {
+    throw new HttpException(
+      500,
+      `Generated poem contains ${ordinals.length} verses, but there are ${userCount} users.`,
+    );
+  }
+
+  for (let i = 1; i < ordinals.length; i++) {
+    if (ordinals[i] !== ordinals[i - 1] + 1) {
+      throw new HttpException(
+        500,
+        `Generated poem has a discontinuity in ordinals: ${ordinals[i - 1]} is followed by ${ordinals[i]}`,
+      );
+    }
+  }
+};
+
 const randomMapVersesToUsers = (
   verses: VerseDataType[],
   users: UserDataType[],
@@ -148,21 +172,17 @@ const generatePoemHandler: GeneratePoemHandlerInterface = async (request) => {
         : undefined;
 
     const model = await getModel();
-
     const { response } = await model.generateContent(getGeneratePoemPrompt(verseCount, keywords));
+
     const poem = response.text();
-
     const poemId = uuidv4();
-
     const verses: VerseDataType[] = [...poem.matchAll(/\((\d+)\.\)\s+([^|]+)/g)].map((match) => ({
       poemId,
       ordinal: Number(match[1]),
       verse: match[2].trim(),
     }));
 
-    if (verses.some((verse) => verse.ordinal <= 0)) {
-      throw new HttpException(500, 'Generated poem contained an invalid verse ordinal');
-    }
+    validateVerseDataOrThrow(verses, usersResult.length);
 
     const userVerseMap = randomMapVersesToUsers(verses, usersResult);
 

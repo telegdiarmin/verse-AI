@@ -42,7 +42,8 @@ export class ApiService {
       });
 
       if (!response.ok) {
-        throw new Error();
+        const errorResponse = await response.json();
+        throw new Error(errorResponse.error);
       }
 
       const { verseData }: GeneratePoemHandlerResponseType = await response.json();
@@ -51,8 +52,9 @@ export class ApiService {
       this.#notificationservice.showNotification('success', 'Generálás sikeres.');
 
       return true;
-    } catch {
-      this.#notificationservice.showNotification('error', 'Generálás sikertelen.');
+    } catch (error) {
+      const errorText = error instanceof Error ? error.message : 'Ismeretlen hiba';
+      this.#notificationservice.showNotification('error', `Generálás sikertelen: ${errorText}`);
     }
 
     return false;

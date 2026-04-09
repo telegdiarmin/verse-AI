@@ -152,6 +152,78 @@ describe('generatePoemHandler', async () => {
       error: expect.stringContaining('Invalid UUID'),
     });
   });
+
+  it('should return 500 if the smallest ordinal is not 1', async () => {
+    GoogleGenerativeAiSpy.mockReturnValueOnce({
+      generateContent: () =>
+        Promise.resolve({
+          response: {
+            text: () => '(2.) Second | (3.) Third | (4.) Fourth | (5.) Fifth |',
+          },
+        }),
+    } as unknown as GenerativeModel);
+
+    const response = await handler(
+      new Request('http://localhost', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: mockGeneratingUserId }),
+      }),
+    );
+
+    expect(response!.status).toBe(500);
+    await expect(response!.json()).resolves.toMatchObject({
+      error: expect.stringContaining('do not start at 1'),
+    });
+  });
+
+  it('should return 500 if the number of verses does not match the number of users', async () => {
+    GoogleGenerativeAiSpy.mockReturnValueOnce({
+      generateContent: () =>
+        Promise.resolve({
+          response: {
+            text: () => '(1.) First | (2.) Second | (3.) Third |',
+          },
+        }),
+    } as unknown as GenerativeModel);
+
+    const response = await handler(
+      new Request('http://localhost', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: mockGeneratingUserId }),
+      }),
+    );
+
+    expect(response!.status).toBe(500);
+    await expect(response!.json()).resolves.toMatchObject({
+      error: expect.stringContaining('but there are 4 users'),
+    });
+  });
+
+  it('should return 500 if the ordinals have a discontinuity', async () => {
+    GoogleGenerativeAiSpy.mockReturnValueOnce({
+      generateContent: () =>
+        Promise.resolve({
+          response: {
+            text: () => '(1.) First | (2.) Second | (4.) Fourth | (5.) Fifth |',
+          },
+        }),
+    } as unknown as GenerativeModel);
+
+    const response = await handler(
+      new Request('http://localhost', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: mockGeneratingUserId }),
+      }),
+    );
+
+    expect(response!.status).toBe(500);
+    await expect(response!.json()).resolves.toMatchObject({
+      error: expect.stringContaining('2 is followed by 4'),
+    });
+  });
 });
 
 describe('prepareKeywords', () => {
